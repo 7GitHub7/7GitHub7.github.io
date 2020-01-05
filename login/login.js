@@ -15,14 +15,14 @@ angular.module( 'sample.login', [
 
   $scope.login = function() {
     $http({
-      url: 'http://localhost:3001/sessions/create',
+      url: 'https://pacific-river-86141.herokuapp.com/api/token/',
       method: 'POST',
       data: $scope.user
     }).then(function(response) {
       store.set('jwt', response.data.id_token);
       $state.go('home');
     }, function(error) {
-      alert(error.data);
+      alert(error.data.details);
     });
   }
 

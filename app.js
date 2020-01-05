@@ -1,6 +1,6 @@
 angular.module( 'sample', [
-  'sample.home',
   'sample.login',
+  'sample.home',
   'sample.signup',
   'angular-jwt',
   'angular-storage'
