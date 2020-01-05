@@ -20,11 +20,11 @@ angular.module( 'sample.home', [
 
   $scope.callAnonymousApi = function() {
     // Just call the API as you'd do using $http
-    callApi('Anonymous', 'http://localhost:3001/api/random-quote');
+    callApi('Anonymous', 'https://pacific-river-86141.herokuapp.com/api/token/refresh/');
   }
 
   $scope.callSecuredApi = function() {
-    callApi('Secured', 'http://localhost:3001/api/protected/random-quote');
+    callApi('Secured', 'https://pacific-river-86141.herokuapp.com/api/token/refresh/');
   }
 
   function callApi(type, url) {
@@ -32,7 +32,7 @@ angular.module( 'sample.home', [
     $scope.api = type;
     $http({
       url: url,
-      method: 'GET'
+      method: 'POST'
     }).then(function(quote) {
       $scope.response = quote.data;
     }, function(error) {

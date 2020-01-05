@@ -5,13 +5,16 @@ angular.module( 'sample', [
   'angular-jwt',
   'angular-storage'
 ])
-.config( function myAppConfig ($urlRouterProvider, jwtInterceptorProvider, $httpProvider) {
+.config( function myAppConfig ($urlRouterProvider, jwtInterceptorProvider ,jwtOptionsProvider, $httpProvider) {
   $urlRouterProvider.otherwise('/');
 
   jwtInterceptorProvider.tokenGetter = function(store) {
     return store.get('jwt');
   }
+  jwtOptionsProvider.config({
 
+    whiteListedDomains: ['api.myapp.com', 'localhost', 'pacific-river-86141.herokuapp.com']
+  });
   $httpProvider.interceptors.push('jwtInterceptor');
 })
 .run(function($rootScope, $state, store, jwtHelper) {
