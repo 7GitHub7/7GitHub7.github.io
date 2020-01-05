@@ -22,7 +22,7 @@ angular.module( 'sample.login', [
       store.set('jwt', response.data.id_token);
       $state.go('home');
     }, function(error) {
-      alert(error.data.details);
+      alert(error.data);
     });
   }
 
