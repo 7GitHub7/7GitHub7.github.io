@@ -18,12 +18,21 @@ angular.module( 'sample', [
   });
   $httpProvider.interceptors.push('jwtInterceptor');
 })
-.run(function($rootScope, $state, store, jwtHelper) {
-  $rootScope.$on('$stateChangeStart', function(e, to) {
-    if (to.data && to.data.requiresLogin) {
+.run(function($transitions,$rootScope, $state, store, jwtHelper) {
+  // $rootScope.$on('$stateChangeStart', function(e, to) {
+  //   if (to.data && to.data.requiresLogin) {
+  //     if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
+  //       e.preventDefault();
+  //       $state.go('login');
+  //     }
+  //   }
+  // });
+
+  $transitions.onEnter({}, function (trans) {
+    if (trans.to().data && trans.to().data.requiresLogin) {
       if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
-        e.preventDefault();
-        $state.go('login');
+       // e.preventDefault();
+        trans.router.stateService.go('login');
       }
     }
   });
