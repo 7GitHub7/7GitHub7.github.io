@@ -9,7 +9,8 @@ angular.module( 'sample', [
   $urlRouterProvider.otherwise('/');
 
   jwtInterceptorProvider.tokenGetter = function(store) {
-    return store.get('jwt');
+    var token = store.get('jwt');
+    return token;
   }
   jwtOptionsProvider.config({
 

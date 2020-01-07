@@ -19,7 +19,7 @@ angular.module( 'sample.login', [
       method: 'POST',
       data: $scope.user
     }).then(function(response) {
-      store.set('jwt', response.data.id_token);
+      store.set('jwt', response.data.access);
       $state.go('home');
     }, function(error) {
       alert(JSON.stringify(error.data));
