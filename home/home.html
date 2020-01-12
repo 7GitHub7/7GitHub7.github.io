@@ -7,6 +7,7 @@
     <pre ng-show="jwt" class="jwt"><code>{{decodedJwt | json}}</code></pre>
     <!-- <p>Click any of the buttons to call an API and get a response</p> -->
     <p><a class="btn btn-primary btn-lg" role="button" ng-click="callAnonymousApi()">Pokaż dane</a></p>
+    <p><a class="btn btn-primary btn-lg" role="button" ng-click="goToMap()">Idz do mapy </a></p>
     <!-- <p><a class="btn btn-primary btn-lg" role="button" ng-click="callSecuredApi()">Call Secure API</a></p> -->
     <!-- <h2 ng-show="response">The response of calling the <span class="red">{{api}}</span> API is:</h2> -->
     <!-- <h3 ng-show="response">{{response}}</h3> -->
@@ -15,7 +16,7 @@
 
     <div ng-controller="AppCtrl" ng-cloak layout-gt-sm="row" layout="column">
 
-      <!-- <div flex-gt-sm="50" flex>
+      <div flex-gt-sm="50" flex>
 
         <md-toolbar layout="row" class="md-hue-3">
           <div class="md-toolbar-tools">
@@ -36,12 +37,15 @@
             </md-list-item>
           </md-list>
         </md-content>
-      </div> -->
-
-      <div id="map">       
-        <script src="https://maps.googleapis.com/maps/api/js"></script>
       </div>
 
+      
+
     </div>
+    <div id="map" > 
+            
+        
+
+      </div>
   </div>
 </div>

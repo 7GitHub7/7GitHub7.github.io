@@ -2,6 +2,7 @@ angular.module( 'sample', [
   'sample.login',
   'sample.home',
   'sample.signup',
+  'sample.map',
   'angular-jwt',
   'angular-storage'
 ])
