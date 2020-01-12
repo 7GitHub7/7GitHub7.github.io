@@ -19,7 +19,7 @@ angular.module('sample.map', ['ui.router',
     $stateProvider.state('map', {
       url: '/map',
       controller: 'MapCtrl',
-      templateUrl: 'map.html',
+      templateUrl: 'map/map.html',
       data: {
         requiresLogin: true
       }
