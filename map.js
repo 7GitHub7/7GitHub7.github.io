@@ -8,7 +8,6 @@ function initCities(citiList) {
 }
 
 
-
 angular.module('sample.map', ['ui.router',
     'angular-storage',
     'angular-jwt',
@@ -20,14 +19,14 @@ angular.module('sample.map', ['ui.router',
     $stateProvider.state('map', {
       url: '/',
       controller: 'MapCtrl',
-      templateUrl: 'index2.html',
+      templateUrl: 'map.html',
       data: {
         requiresLogin: true
       }
     });
    
   })
-  .controller('MapCtrl', function MapController($scope, $rootScope, $compile, $http, store, jwtHelper) {
+  .controller('MapCtrl', function MapController($scope, $rootScope, $compile, $http, store, jwtHelper,$state) {
 
     $scope.jwt = store.get('jwt');
     $scope.decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
@@ -44,8 +43,9 @@ angular.module('sample.map', ['ui.router',
         $scope.response = quote.data;
         quote.data.forEach(element => {
           if (element.fields.type == 'GPS') {
-            console.log(quote.data);
-            cor = element.fields.type.data.split(',')
+            console.log(element);
+            cor = String(element.fields.data).split(',')
+            console.log(cor);
             cities = [{
               title: 'UĆ',
               lat: cor[0],

@@ -16,7 +16,7 @@ angular.module('sample.home', [
     });
     $mdIconProvider.iconSet('communication', 'img/icons/sets/communication-icons.svg', 24);
   })
-  .controller('HomeCtrl', function HomeController($scope, $http, store, jwtHelper) {
+  .controller('HomeCtrl', function HomeController($scope, $http, store, jwtHelper, $state) {
 
 
 
@@ -36,18 +36,8 @@ angular.module('sample.home', [
       cities = [
         { title: 'UĆ', lat: -33.873033, lng: 151.231397 },
         { title: 'Melbourne', lat: -37.812228, lng: 144.968355 }];
-   
-
-      initCities(cities);
-      
-      setTimeout(function(){
-        document.getElementById("map").innerHTML = '<object type="text/html" data="map.html" ></object>';
-    }, 2000);
-
-
-      // document.getElementById("map").innerHTML = '<object type="text/html" data="index2.html" ></object>';
-
-    }
+        $state.go('map');
+      }
 
     function callApi(type, url) {
       $scope.response = null;
