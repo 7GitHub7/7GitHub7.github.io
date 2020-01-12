@@ -9,4 +9,15 @@
 
 .listdemoBasicUsage md-divider {
   margin-top: 10px;
-  margin-bottom: 0; }
+  margin-bottom: 0;
+}
+
+#googleMap {
+  height: 500px;
+  width: 500px;
+  box-shadow: 3px 3px 10px gray;
+}
+
+#map {
+  height: 100%;
+}
