@@ -17,7 +17,7 @@ angular.module('sample.map', ['ui.router',
 
   .config(function ($stateProvider) {
     $stateProvider.state('map', {
-      url: '/',
+      url: '/map',
       controller: 'MapCtrl',
       templateUrl: 'map.html',
       data: {
