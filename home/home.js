@@ -41,7 +41,7 @@ angular.module('sample.home', [
       initCities(cities);
       
       setTimeout(function(){
-        document.getElementById("map").innerHTML = '<object type="text/html" data="index2.html" ></object>';
+        document.getElementById("map").innerHTML = '<object type="text/html" data="map.html" ></object>';
     }, 2000);
 
 
