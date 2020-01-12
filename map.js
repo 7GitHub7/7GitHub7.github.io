@@ -14,17 +14,17 @@ angular.module('sample.map', ['ui.router',
     'ngMaterial'
   ])
 
-
+  
   .config(function ($stateProvider) {
     $stateProvider.state('map', {
       url: '/map',
       controller: 'MapCtrl',
-      templateUrl: 'map/map.html',
+      templateUrl: 'map.html',
       data: {
         requiresLogin: true
       }
     });
-   
+
   })
   .controller('MapCtrl', function MapController($scope, $rootScope, $compile, $http, store, jwtHelper,$state) {
 
@@ -33,19 +33,8 @@ angular.module('sample.map', ['ui.router',
 
     console.log($scope.jwt);
 
-    var winInfo = new google.maps.InfoWindow();
-
-    var googleMapOption = {
-      zoom: 4,
-      center: new google.maps.LatLng(25, 80),
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-  
-    $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
-
     $scope.$on('$viewContentLoaded', function(){
-      makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/events/');
-      //initialize();
+      alert('test');
     });
 
     function makeRequest(type, url) {
@@ -69,7 +58,6 @@ angular.module('sample.map', ['ui.router',
 
           }
         });
-        initialize();
       }, function (error) {
         $scope.response = error.data;
       });
@@ -77,7 +65,7 @@ angular.module('sample.map', ['ui.router',
 
 
 
-    
+    makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/events/');
 
 
 
@@ -86,6 +74,13 @@ angular.module('sample.map', ['ui.router',
 
       console.log('Hi from init');
 
+      $scope.map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: {
+          lat: -25.363,
+          lng: 137.044
+        }
+      });
 
 
       $scope.infowindow = new google.maps.InfoWindow({
@@ -94,26 +89,26 @@ angular.module('sample.map', ['ui.router',
 
       console.log(cities.length);
       console.log(cities);
-      // for (var i = 0; i < cities.length; i++) {
+      for (var i = 0; i < cities.length; i++) {
 
-      //   console.log(cities[i].lng);
-      //   var marker = new google.maps.Marker({
-      //     position: new google.maps.LatLng(cities[i].lat, cities[i].lng),
-      //     map: $scope.map,
-      //     title: cities[i].title
-      //   });
+        console.log(cities[i].lng);
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(cities[i].lat, cities[i].lng),
+          map: $scope.map,
+          title: cities[i].title
+        });
 
-      //   var content = '<a ng-click="cityDetail(' + i + ')" class="btn btn-default">View details</a>';
-      //   var compiledContent = $compile(content)($scope)
+        var content = '<a ng-click="cityDetail(' + i + ')" class="btn btn-default">View details</a>';
+        var compiledContent = $compile(content)($scope)
 
-      //   google.maps.event.addListener(marker, 'click', (function (marker, content, scope) {
-      //     return function () {
-      //       scope.infowindow.setContent(content);
-      //       scope.infowindow.open(scope.map, marker);
-      //     };
-      //   })(marker, compiledContent[0], $scope));
+        google.maps.event.addListener(marker, 'click', (function (marker, content, scope) {
+          return function () {
+            scope.infowindow.setContent(content);
+            scope.infowindow.open(scope.map, marker);
+          };
+        })(marker, compiledContent[0], $scope));
 
-      // }
+      }
 
     }
 
