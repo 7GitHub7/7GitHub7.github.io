@@ -43,6 +43,14 @@ angular.module('sample.map', ['ui.router',
   
     $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
 
+    // var myLatLng = {lat: -25.363, lng: 131.044};
+
+    // var marker = new google.maps.Marker({
+    //   position: myLatLng,
+    //   map: $scope.gMap,
+    //   title: 'Hello World!'
+    // });
+
     $scope.$on('$viewContentLoaded', function(){
       makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/events/');
       //initialize();
@@ -60,40 +68,64 @@ angular.module('sample.map', ['ui.router',
           if (element.fields.type == 'GPS') {
             console.log(element);
             cor = String(element.fields.data).split(',')
-            console.log(cor);
-            cities = [{
-              title: 'UĆ',
-              lat: cor[0],
-              lng: cor[1]
-            }];
+            // initialize(cor[0],cor[1]);
 
           }
         });
-        initialize();
       }, function (error) {
         $scope.response = error.data;
       });
     }
 
+    var neighborhoods = [
+      {lat: 53.511, lng: 10.447},
+      {lat: 54.549, lng: 30.422},
+      {lat: 55.497, lng: 50.396},
+      {lat: 56.517, lng: 70.394}
+    ];
 
+    var markers = [];
+    var map = $scope.gMap;
+    $scope.drop = function() {
+      clearMarkers();
+      for (var i = 0; i < neighborhoods.length; i++) {
+        addMarkerWithTimeout(neighborhoods[i], i * 200);
+      }
+    }
 
-    
+    function addMarkerWithTimeout(position, timeout) {
+      window.setTimeout(function() {
+        markers.push(new google.maps.Marker({
+          position: position,
+          map: map,
+          animation: google.maps.Animation.DROP
+        }));
+      }, timeout);
+    }
 
+    function clearMarkers() {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      markers = [];
+    }
 
+    // function initialize(lat,lng) {
 
+    //   console.log('Hi from init');
+    //   var myLatLng2 = {lat: lat, lng: lng};
+      
+    //   var marker2 = new google.maps.Marker({
+    //     position: myLatLng2,
+    //     map: $scope.gMap,
+    //     title: 'Hello World!'
+    //   });
 
-    function initialize() {
+      // $scope.infowindow = new google.maps.InfoWindow({
+      //   content: ''
+      // });
+      
 
-      console.log('Hi from init');
-
-
-
-      $scope.infowindow = new google.maps.InfoWindow({
-        content: ''
-      });
-
-      console.log(cities.length);
-      console.log(cities);
       // for (var i = 0; i < cities.length; i++) {
 
       //   console.log(cities[i].lng);
@@ -115,7 +147,7 @@ angular.module('sample.map', ['ui.router',
 
       // }
 
-    }
+    
 
     $scope.cityDetail = function (index) {
       alert(JSON.stringify(cities[index]));
