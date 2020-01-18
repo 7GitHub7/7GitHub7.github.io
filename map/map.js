@@ -52,7 +52,7 @@ angular.module('sample.map', ['ui.router',
     // });
 
     $scope.$on('$viewContentLoaded', function(){
-      makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/events/');
+      makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/device-events/');
       //initialize();
     });
 
@@ -65,12 +65,18 @@ angular.module('sample.map', ['ui.router',
       }).then(function (quote) {
         $scope.response = quote.data;
         quote.data.forEach(element => {
-          if (element.fields.type == 'GPS') {
-            console.log(element);
-            cor = String(element.fields.data).split(',')
-            // initialize(cor[0],cor[1]);
+          
+          console.log(element.data);
+          var obj = String(element.data).replace(/["']/g, "\"");
+          var objJSON = JSON.parse(obj);
+          var el = {lat: parseFloat(objJSON.latitude), lng: parseFloat(objJSON.longitude)}
+          neighborhoods.push(el)
+          
 
-          }
+            // cor = String(obj.latitude)
+            console.log(String(neighborhoods));
+           
+          
         });
       }, function (error) {
         $scope.response = error.data;
@@ -78,10 +84,7 @@ angular.module('sample.map', ['ui.router',
     }
 
     var neighborhoods = [
-      {lat: 53.511, lng: 10.447},
-      {lat: 54.549, lng: 30.422},
-      {lat: 55.497, lng: 50.396},
-      {lat: 56.517, lng: 70.394}
+      
     ];
 
     var markers = [];

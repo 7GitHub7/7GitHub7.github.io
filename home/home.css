@@ -7,18 +7,15 @@
 }
 
 
-.listdemoBasicUsage md-divider {
-  margin-top: 10px;
-  margin-bottom: 0;
-}
-
 #googleMap {
-  height: 500px;
-  width: 500px;
+  height: 5000px;
+  width: 5000px;
   box-shadow: 3px 3px 10px gray;
+  border: 10px black;
 }
 
 #map {
   height: 100%;
   width: 100%;
 }
+
