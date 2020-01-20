@@ -1,0 +1,77 @@
+<div class="addevice">
+    <div id="layout" class="pure-g">
+        <div class="sidebar pure-u-1 pure-u-md-1-4">
+            <div class="header">
+                <menu></menu>
+            </div>
+        </div>
+
+        <div class="content pure-u-1 pure-u-md-3-4">
+            <div>
+                <!-- A wrapper for all the blog posts -->
+                <div class="posts">
+                    <h1 class="content-subhead">Dodaj urządzenie</h1>
+
+                    <!-- A single blog post -->
+                    <section class="post">
+                        <header class="post-header">
+
+
+                            <h2 class="post-title">Moje urządzenia</h2>
+
+
+                        </header>
+                        <mapDiv></mapDiv>
+                        <div class="post-description">
+                            <table>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nazwa urządzenia</th>
+                                </tr>
+                                <tr ng-repeat="userDevice in userDevices">
+                                    <td>{{userDevice.pk}}</td>
+                                    <td>{{userDevice.fields.device_id}}</td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="posts">
+
+
+                    <section class="post">
+                        <header class="post-header">
+
+                            <h2 class="post-title">Dodaj nowe urządzenie</h2>
+
+            
+                        </header>
+
+                        <div class="post-description">
+                            <form role="form" class="pure-form pure-form-aligned">
+                                <fieldset>
+                                  <div class="pure-control-group">
+                                    <label for="deviceName" required>NazwaUrządzenia</label>
+                                    <input type="text" class="form-control" ng-model="deviceName" id="username" placeholder="Nazwa urządzenia">
+                                  </div>
+                           
+                                  <div class="pure-controls">
+                                    <button type="submit" class="pure-button pure-button-primary" ng-click="addDevice()">Dodaj urządzenie</button>
+                                  </div>
+                                </fieldset>
+                              </form>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
