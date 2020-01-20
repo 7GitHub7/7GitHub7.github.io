@@ -1,4 +1,4 @@
-angular.module('sample.home', [
+angular.module('carmanager.home', [
     'ui.router',
     'angular-storage',
     'angular-jwt',
@@ -6,14 +6,7 @@ angular.module('sample.home', [
 
   ])
   .config(function ($stateProvider, $mdIconProvider) {
-    $stateProvider.state('home', {
-      url: '/',
-      controller: 'HomeCtrl',
-      templateUrl: 'home/home.html',
-      data: {
-        requiresLogin: true
-      }
-    });
+
     $mdIconProvider.iconSet('communication', 'img/icons/sets/communication-icons.svg', 24);
   })
 

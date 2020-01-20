@@ -8,24 +8,14 @@ function initCities(citiList) {
 }
 
 
-angular.module('sample.map', ['ui.router',
+angular.module('carmanager.map', ['ui.router',
     'angular-storage',
     'angular-jwt',
     'ngMaterial'
   ])
 
 
-  .config(function ($stateProvider) {
-    $stateProvider.state('map', {
-      url: '/map',
-      controller: 'MapCtrl',
-      templateUrl: 'map/map.html',
-      data: {
-        requiresLogin: true
-      }
-    });
-   
-  })
+
   .controller('MapCtrl', function MapController($scope, $rootScope, $compile, $http, store, jwtHelper,$state) {
 
     $scope.jwt = store.get('jwt');

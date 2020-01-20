@@ -1,4 +1,4 @@
-angular.module( 'sample.signup', [
+angular.module( 'carmanager.signup', [
   'ui.router',
   'angular-storage'
 ])
