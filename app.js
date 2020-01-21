@@ -34,7 +34,7 @@ angular.module('carmanager', [
 
     $stateProvider.state('home', {
       url: '/',
-      controller: 'HomeCtrl',
+      controller: 'homeCtrl',
       templateUrl: 'home/home.html',
       data: {
         requiresLogin: true
@@ -101,6 +101,17 @@ angular.module('carmanager', [
       data.device_id = deviceName;
 
       var ret = $http.post('https://pacific-river-86141.herokuapp.com/user-device-add/', data).then(function (response) {
+        return response;
+      });
+
+      return ret;
+    };
+
+    factory.getDeviceEvents = function () {
+
+
+
+      var ret = $http.get('https://pacific-river-86141.herokuapp.com/device-events/').then(function (response) {
         return response;
       });
 
