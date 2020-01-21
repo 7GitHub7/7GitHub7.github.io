@@ -88,7 +88,7 @@ angular.module('carmanager.home', [
         neighborhoods.push(element.data)
 
 
-          console.log(String(neighborhoods));
+          // console.log(String(neighborhoods));
 
 
       });

@@ -23,13 +23,10 @@ angular.module('carmanager.map', ['ui.router',
     $scope.jwt = store.get('jwt');
     $scope.decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
 
-    console.log( JSON.parse(($stateParams.coordinates)));
+    // console.log( JSON.parse(($stateParams.coordinates)));
 
     
 
-
-
-  
 
 
     var winInfo = new google.maps.InfoWindow();
@@ -52,7 +49,7 @@ angular.module('carmanager.map', ['ui.router',
 
     $scope.$on('$viewContentLoaded', function(){
       makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/device-events/');
-      UserCtrl();
+      // UserCtrl();
       //initialize();
     });
 
@@ -63,21 +60,21 @@ angular.module('carmanager.map', ['ui.router',
         url: url,
         method: 'GET'
       }).then(function (quote) {
-        $scope.response = quote.data;
-        quote.data.forEach(element => {
+        // $scope.response = quote.data;
+        // quote.data.forEach(element => {
           
-          console.log($stateParams);
-          var obj = String(element.data).replace(/["']/g, "\"");
-          var objJSON = JSON.parse(obj);
-          var el = {lat: parseFloat(objJSON.latitude), lng: parseFloat(objJSON.longitude)}
-          neighborhoods.push(el)
+        //   console.log($stateParams);
+        //   var obj = String(element.data).replace(/["']/g, "\"");
+        //   var objJSON = JSON.parse(obj);
+        //   var el = {lat: parseFloat(objJSON.latitude), lng: parseFloat(objJSON.longitude)}
+        //   neighborhoods.push(el)
           
 
-            // cor = String(obj.latitude)
-            console.log(String(neighborhoods));
+        //     // cor = String(obj.latitude)
+        //     console.log(String(neighborhoods));
            
           
-        });
+        // });
       }, function (error) {
         $scope.response = error.data;
       });
@@ -95,6 +92,7 @@ angular.module('carmanager.map', ['ui.router',
     var map = $scope.gMap;
     $scope.drop = function() {
 
+console.log($stateParams.coordinates);
       $stateParams.coordinates.forEach(element => {
       
         var el = {lat: parseFloat(element.latitude), lng: parseFloat(element.longitude)}
@@ -169,7 +167,6 @@ angular.module('carmanager.map', ['ui.router',
 
 
     console.log(cities);
-    console.log($stateParams.bookName.lastName);
 
     
     //google.maps.event.addDomListener(window, 'load', initialize);
