@@ -22,21 +22,47 @@ angular.module('carmanager.home', [
   .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
 
     $scope.userDevices = [];
+    $scope.userDevicesEventsAllFilled = false;
     $scope.userDevicesEventsAll = {};
     $scope.userDevicesEvents = {};
     $scope.jwt = store.get('jwt');
     decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
     $scope.username = decodedJwt.username;
+    $scope.selectedDevice = {};
 
-    carManagerService.getDeviceEvents().then(function(response){
+    carManagerService.getDeviceEvents().then(function (response) {
       $scope.userDevicesEventsAll = response.data;
+      $scope.userDevicesEventsAllFilled = true;
     });
 
-    $scope.selectedDeviceChanged = function (selectedDevice) {
-      $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function(element){
-        return element.device_id ==selectedDevice.fields.device_id;
-      })
-    }
+    $scope.$watch('userDevicesEventsAll', function () {
+      if ($scope.userDevicesEventsAllFilled) {
+        $scope.selectedDevice = $scope.userDevices[0];
+        //alert('userDevicesEventsAll '+JSON.stringify(JSON.stringify($scope.userDevicesEventsAll)));
+        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+          return element.device_id == $scope.userDevices[0].device_id;
+        })
+      }
+    });
+
+    $scope.$watch('selectedDevice', function (newvalue, oldvalue) {
+      //alert('selectedDevice '+JSON.stringify(newvalue));
+      if ($scope.userDevicesEventsAllFilled) {
+        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+          return element.device_id == newvalue.fields.device_id;
+        })
+      }
+    });
+
+    $scope.$watch('userDevices', function () {
+      //alert('userDevices '+JSON.stringify($scope.userDevices[0]));
+      if ($scope.userDevicesEventsAllFilled) {
+        
+        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+          return element.device_id == $scope.userDevices[0].device_id;
+        })
+      }
+    });
 
     $scope.callAnonymousApi = function () {
       // Just call the API as you'd do using $http

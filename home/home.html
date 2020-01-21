@@ -19,8 +19,8 @@
 
               <div class="pure-control-group">
                 <label for="mySelect">Make a choice:</label>
-                <select name="mySelect" id="mySelect" ng-change="selectedDeviceChanged(selectedDevice)"
-                  ng-options="device.fields.device_id for device in userDevices track by device.fields.id"
+                <select name="mySelect" id="mySelect"
+                  ng-options="device as device.fields.device_id for device in userDevices track by device.fields.device_id"
                   ng-model="selectedDevice"></select>
               </div>
 
@@ -41,7 +41,7 @@
                 </tr>
             </table>
         </div>
-
+          <!-- <label>{{selectedDevice}}</label> -->
           <p><a class="btn btn-primary btn-lg" role="button" ng-click="callAnonymousApi()">Pokaż dane</a></p>
           <p><a class="btn btn-primary btn-lg" role="button" ng-click="goToMap()">Idz do mapy </a></p>
 
