@@ -80,8 +80,26 @@ angular.module('carmanager.home', [
     })
 
     $scope.goToMap = function () {
+      neighborhoods = []
 
-      $state.go('map');
+      $scope.userDevicesEvents.forEach(element => {
+        
+      if(element.type=="POSITION")
+        neighborhoods.push(element.data)
+
+
+          console.log(String(neighborhoods));
+
+
+      });
+
+
+
+      var myJSON = JSON.stringify(neighborhoods);
+      // var myJSON = "";
+
+      // $state.go('map',{bookName:myJSON});
+      $state.go('map',{coordinates:myJSON});
     }
 
     $scope.selectDeviceEvent = function (deviceEvent) {
