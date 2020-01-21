@@ -12,7 +12,7 @@
         <div class="posts">
           <h1 class="content-subhead">Podgląd odczytów</h1>
           <!-- A wrapper for all the blog posts -->
-          <h2>Urządzenia</h2>
+          <h3>Urządzenia</h3>
           <form class="pure-form pure-form-aligned">
             <fieldset>
 
@@ -26,20 +26,21 @@
 
             </fieldset>
           </form>
-
+          <h3>Zdarzenia</h3>
           <div class="post-description">
-            <table>
+            <table class="pure-table pure-table-bordered">
                 <tr>
                     <th>Id</th>
                     <th>Typ zdarzenia</th>
                     <th>Data zdarzenia</th>
+                    <th>+</th>
                 </tr>
                 <tr ng-repeat="deviceEvent in userDevicesEvents">
                     <td>{{deviceEvent.id}}</td>
                     <td>{{deviceEvent.type}}</td>
                     <td>{{deviceEvent.date}}</td>
                     <td>
-                    <button ng-click="selectDeviceEvent(deviceEvent)">
+                    <button class="pure-button" ng-click="selectDeviceEvent(deviceEvent)">
 
                       szczegóły
                     </button>
