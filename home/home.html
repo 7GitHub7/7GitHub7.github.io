@@ -38,10 +38,16 @@
                     <td>{{deviceEvent.id}}</td>
                     <td>{{deviceEvent.type}}</td>
                     <td>{{deviceEvent.date}}</td>
+                    <td>
+                    <button ng-click="selectDeviceEvent(deviceEvent)">
+
+                      szczegóły
+                    </button>
+                    </td>
                 </tr>
             </table>
         </div>
-          <!-- <label>{{selectedDevice}}</label> -->
+          <label>{{selectedEvent}}</label> 
           <p><a class="btn btn-primary btn-lg" role="button" ng-click="callAnonymousApi()">Pokaż dane</a></p>
           <p><a class="btn btn-primary btn-lg" role="button" ng-click="goToMap()">Idz do mapy </a></p>
 

@@ -25,6 +25,7 @@ angular.module('carmanager.home', [
     $scope.userDevicesEventsAllFilled = false;
     $scope.userDevicesEventsAll = {};
     $scope.userDevicesEvents = {};
+    $scope.selectedEvent={};
     $scope.jwt = store.get('jwt');
     decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
     $scope.username = decodedJwt.username;
@@ -57,7 +58,7 @@ angular.module('carmanager.home', [
     $scope.$watch('userDevices', function () {
       //alert('userDevices '+JSON.stringify($scope.userDevices[0]));
       if ($scope.userDevicesEventsAllFilled) {
-        
+
         $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
           return element.device_id == $scope.userDevices[0].device_id;
         })
@@ -83,7 +84,9 @@ angular.module('carmanager.home', [
       $state.go('map');
     }
 
-
+    $scope.selectDeviceEvent = function (deviceEvent) {
+      $scope.selectedEvent = deviceEvent;
+    }
 
 
     function callApi(type, url) {
