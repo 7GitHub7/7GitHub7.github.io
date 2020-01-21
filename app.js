@@ -100,7 +100,7 @@ angular.module('carmanager', [
       var data = {}
       data.device_id = deviceName;
 
-      var ret = $http.post('https://pacific-river-86141.herokuapp.com/user-devices/', data).then(function (response) {
+      var ret = $http.post('https://pacific-river-86141.herokuapp.com/user-device-add/', data).then(function (response) {
         return response;
       });
 
