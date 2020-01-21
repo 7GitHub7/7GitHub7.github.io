@@ -65,59 +65,37 @@ angular.module('carmanager.home', [
       }
     });
 
-    $scope.callAnonymousApi = function () {
-      // Just call the API as you'd do using $http
-      callApi('Anonymous', 'https://pacific-river-86141.herokuapp.com/device-events/');
-    }
 
-    $scope.callSecuredApi = function () {
-      callApi('Secured', 'https://pacific-river-86141.herokuapp.com/device-events/');
-    }
 
 
     carManagerService.getUserDevices().then(function (request) {
       $scope.userDevices = request.data;
     })
 
-    $scope.goToMap = function () {
 
-      $state.go('map');
-    }
 
     $scope.selectDeviceEvent = function (deviceEvent) {
       $scope.selectedEvent = deviceEvent;
+
+
+      if(deviceEvent.type=="POSITION"){
+        var position = JSON.parse(deviceEvent.data);
+        var center = new google.maps.LatLng(position.latitude, position.longitude);
+        $scope.gMap.panTo(center);
+      }
+
+
     }
+    //var winInfo = new google.maps.InfoWindow();
+    var googleMapOption = {
+      zoom: 4,
+      center: new google.maps.LatLng(25, 80),
+      mapTypeId: google.maps.MapTypeId.TERRAIN
+    };
+    var mapDiv= document.getElementById('mapDiv');
+    $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
 
 
-    function callApi(type, url) {
-      $scope.response = null;
-      $scope.api = type;
-      $http({
-        url: url,
-        method: 'GET'
-      }).then(function (quote) {
-        $scope.response = quote.data;
-        console.log(quote.data[0])
-        imagePath = "";
-        $scope.todos = [];
-
-        quote.data.forEach(element => {
-
-          $scope.todos.push({
-
-            what: element.data,
-            who: element.type,
-            when: element.date,
-            // notes: element.fields.device_id
-          })
-
-        });
-
-
-      }, function (error) {
-        $scope.response = error.data;
-      });
-    }
 
   }]);
 
