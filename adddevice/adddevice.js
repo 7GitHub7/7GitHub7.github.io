@@ -18,6 +18,8 @@ angular.module('carmanager.adddevice', ['ui.router',
                if(request.status!=200){
                    alert(request.data);
                }
+           },function(request){
+               alert(JSON.stringify(request));
            });
         }
     }])
