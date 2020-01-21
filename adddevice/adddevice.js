@@ -7,21 +7,23 @@ angular.module('carmanager.adddevice', ['ui.router',
 
     .controller('addDeviceCtrl', ['carManagerService', '$scope', '$http', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
         $scope.userDevices = {};
-        $scope.deviceName='';
+        $scope.deviceName = '';
 
-        carManagerService.getUserDevices().then(function (request) {
-            $scope.userDevices = request.data;
-        })
+        $scope.getUserDevices = function () {
+            carManagerService.getUserDevices().then(function (request) {
+                $scope.userDevices = request.data;
+            })
+        };
 
         $scope.addDevice = function () {
-           carManagerService.addDevice($scope.deviceName).then(function(request){
-               if(request.status!=200){
-                   alert(request.data);
-               }
-           },function(request){
-               alert(JSON.stringify(request));
-           });
+            carManagerService.addDevice($scope.deviceName).then(function (request) {
+                $scope.getUserDevices();
+            }, function (request) {
+                alert(JSON.stringify(request));
+            });
         }
+
+        $scope.getUserDevices();
     }])
 
 
