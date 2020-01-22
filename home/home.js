@@ -84,8 +84,10 @@ angular.module('carmanager.home', [
 
       $scope.userDevicesEvents.forEach(element => {
         
-      if(element.type=="POSITION")
+      if(element.type=="POSITION"){
         neighborhoods.push(element.data)
+        neighborhoods.push(element.data)
+      }
 
 
           // console.log(String(neighborhoods));
@@ -98,6 +100,7 @@ angular.module('carmanager.home', [
       var myJSON = JSON.stringify(neighborhoods);
       // var myJSON = "";
 
+      console.log(String(myJSON));
       // $state.go('map',{bookName:myJSON});
       $state.go('map',{coordinates:myJSON});
     }

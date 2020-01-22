@@ -15,7 +15,7 @@ angular.module('carmanager', [
 
 
     $stateProvider.state('map', {
-      url: '/map/coordinates/',
+      url: '/map/:coordinates',
       controller: 'MapCtrl',
       templateUrl: 'map/map.html',
       data: {

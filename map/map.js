@@ -23,8 +23,9 @@ angular.module('carmanager.map', ['ui.router',
     $scope.jwt = store.get('jwt');
     $scope.decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
 
-    // console.log( JSON.parse(($stateParams.coordinates)));
-
+    // console.log($state.params.coordinates);
+    console.log(JSON.parse($state.params.coordinates));
+    $state.params.coordinates=JSON.parse($state.params.coordinates);
     
 
 
@@ -92,16 +93,23 @@ angular.module('carmanager.map', ['ui.router',
     var map = $scope.gMap;
     $scope.drop = function() {
 
-console.log($stateParams.coordinates);
-      $stateParams.coordinates.forEach(element => {
+
+$state.params.coordinates.forEach(element => {
+        console.log(element);
+
+        element = JSON.parse(element)
+
       
         var el = {lat: parseFloat(element.latitude), lng: parseFloat(element.longitude)}
+        console.log(el);
+
         neighborhoods.push(el)    
       });
-      console.log(neighborhoods);
+      console.log(neighborhoods[0]);
       clearMarkers();
       for (var i = 0; i < neighborhoods.length; i++) {
         addMarkerWithTimeout(neighborhoods[i], i * 200);
+        neighborhoods = []
       }
     }
 
