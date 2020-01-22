@@ -86,7 +86,7 @@ angular.module('carmanager.home', [
         
       if(element.type=="POSITION"){
         neighborhoods.push(element.data)
-        neighborhoods.push(element.data)
+        
       }
 
 
