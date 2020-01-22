@@ -10,14 +10,14 @@
             <div>
                 <!-- A wrapper for all the blog posts -->
                 <div class="posts">
-                    <h1 class="content-subhead">Dodaj urządzenie</h1>
+                    <h1 class="content-subhead">Dodaj pojzad</h1>
 
                     <!-- A single blog post -->
                     <section class="post">
                         <header class="post-header">
 
 
-                            <h3 class="post-title">Moje urządzenia</h3>
+                            <h3 class="post-title">Moje samochody</h3>
 
 
                         </header>
@@ -26,7 +26,7 @@
                             <table class="pure-table pure-table-bordered">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nazwa urządzenia</th>
+                                    <th>Numer identyfikacyny</th>
                                 </tr>
                                 <tr ng-repeat="userDevice in userDevices">
                                     <td>{{userDevice.pk}}</td>
@@ -44,7 +44,7 @@
                     <section class="post">
                         <header class="post-header">
 
-                            <h3 class="post-title">Dodaj nowe urządzenie</h3>
+                            <h3 class="post-title">Dodaj nowy samochód</h3>
 
             
                         </header>
@@ -53,12 +53,12 @@
                             <form role="form" class="pure-form pure-form-aligned">
                                 <fieldset>
                                   <div class="pure-control-group">
-                                    <label for="deviceName" required>Nazwa urządzenia</label>
-                                    <input type="text" class="form-control" ng-model="deviceName" id="username" placeholder="Nazwa urządzenia">
+                                    <label for="deviceName" required>Numer identyfikacyny</label>
+                                    <input type="text" class="form-control" ng-model="deviceName" id="username" placeholder="Vin">
                                   </div>
                            
                                   <div class="pure-controls">
-                                    <button type="submit" class="pure-button pure-button-primary" ng-click="addDevice()">Dodaj urządzenie</button>
+                                    <button type="submit" class="pure-button pure-button-primary" ng-click="addDevice()">Dodaj </button>
                                   </div>
                                 </fieldset>
                               </form>

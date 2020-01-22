@@ -15,13 +15,13 @@
           <h1 class="content-subhead">Podgląd odczytów</h1>
           <zingchart id="myChart" zc-json="myJson" zc-height=500 zc-width=600></zingchart>
           <!-- A wrapper for all the blog posts -->
-          <h3>Urządzenia</h3>
+          <h3>Pomiary</h3>
           <form class="pure-form pure-form-aligned">
             <fieldset>
 
 
               <div class="pure-control-group">
-                <label for="mySelect">Wybierz urządzenie:</label>
+                <label for="mySelect">Wybierz pojazd:</label>
                 <select name="mySelect" id="mySelect"
                   ng-options="device as device.fields.device_id for device in userDevices track by device.fields.device_id"
                   ng-model="selectedDevice"></select>
