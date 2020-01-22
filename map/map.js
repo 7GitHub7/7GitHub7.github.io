@@ -105,7 +105,7 @@ $state.params.coordinates.forEach(element => {
 
         neighborhoods.push(el)    
       });
-      console.log(neighborhoods[0]);
+      console.log(neighborhoods);
       clearMarkers();
       for (var i = 0; i < neighborhoods.length; i++) {
         addMarkerWithTimeout(neighborhoods[i], i * 200);
