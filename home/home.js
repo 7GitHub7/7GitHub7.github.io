@@ -21,6 +21,7 @@ angular.module('carmanager.home', [
 
   .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper', '$state', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
 
+    $scope.eventDate = new Date();
     $scope.userDevices = [];
     $scope.userDevicesEventsAllFilled = false;
     $scope.userDevicesEventsAll = {};
@@ -44,10 +45,12 @@ angular.module('carmanager.home', [
       if ($scope.userDevicesEventsAllFilled) {
         $scope.selectedDevice = $scope.userDevices[0];
         //alert('userDevicesEventsAll '+JSON.stringify(JSON.stringify($scope.userDevicesEventsAll)));
-        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
 
-          return element.device_id == $scope.userDevices[0].device_id;
-        })
+        // $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+        //   return element.device_id == $scope.userDevices[0].device_id;
+        // })
+
+        $scope.filterEvents($scope.userDevices[0].device_id, $scope.eventDate);
 
       }
       console.log($scope.userDevicesEvents);
@@ -55,12 +58,22 @@ angular.module('carmanager.home', [
       // initChart()
     });
 
+    $scope.filterEvents = function (deviceId, eventDate) {
+      $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+        var data =new Date(Date.parse(element.date)).toDateString();
+        var data1 =eventDate.toDateString();
+        return element.device_id == deviceId && data == data1;
+      })
+    }
+
     $scope.$watch('selectedDevice', function (newvalue, oldvalue) {
       //alert('selectedDevice '+JSON.stringify(newvalue));
       if ($scope.userDevicesEventsAllFilled) {
-        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
-          return element.device_id == newvalue.fields.device_id;
-        })
+        // $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+        //   return element.device_id == newvalue.fields.device_id;
+        // })
+
+        $scope.filterEvents(newvalue.fields.device_id, $scope.eventDate);
       }
       console.log($scope.userDevicesEvents);
       initChart()
@@ -126,81 +139,36 @@ angular.module('carmanager.home', [
       }
     });
 
-    $scope.callAnonymousApi = function () {
-      // Just call the API as you'd do using $http
-      callApi('Anonymous', 'https://pacific-river-86141.herokuapp.com/device-events/');
-    }
 
-    $scope.callSecuredApi = function () {
-      callApi('Secured', 'https://pacific-river-86141.herokuapp.com/device-events/');
-    }
 
 
     carManagerService.getUserDevices().then(function (request) {
       $scope.userDevices = request.data;
     })
 
-    $scope.goToMap = function () {
-      neighborhoods = []
 
-      $scope.userDevicesEvents.forEach(element => {
-
-        if (element.type == "POSITION") {
-          neighborhoods.push(element.data)
-
-        }
-
-
-        // console.log(String(neighborhoods));
-
-
-      });
-
-
-
-      var myJSON = JSON.stringify(neighborhoods);
-      // var myJSON = "";
-
-      console.log(String(myJSON));
-      // $state.go('map',{bookName:myJSON});
-      $state.go('map', {
-        coordinates: myJSON
-      });
-    }
 
     $scope.selectDeviceEvent = function (deviceEvent) {
       $scope.selectedEvent = deviceEvent;
+
+
+      if (deviceEvent.type == "POSITION") {
+        var position = JSON.parse(deviceEvent.data);
+        var center = new google.maps.LatLng(position.latitude, position.longitude);
+        $scope.gMap.panTo(center);
+      }
+
+
     }
+    //var winInfo = new google.maps.InfoWindow();
+    var googleMapOption = {
+      zoom: 4,
+      center: new google.maps.LatLng(25, 80),
+      mapTypeId: google.maps.MapTypeId.TERRAIN
+    };
+    var mapDiv = document.getElementById('mapDiv');
+    $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
 
 
-    function callApi(type, url) {
-      $scope.response = null;
-      $scope.api = type;
-      $http({
-        url: url,
-        method: 'GET'
-      }).then(function (quote) {
-        $scope.response = quote.data;
-        console.log(quote.data[0])
-        imagePath = "";
-        $scope.todos = [];
-
-        quote.data.forEach(element => {
-
-          $scope.todos.push({
-
-            what: element.data,
-            who: element.type,
-            when: element.date,
-            // notes: element.fields.device_id
-          })
-
-        });
-
-
-      }, function (error) {
-        $scope.response = error.data;
-      });
-    }
 
   }]);

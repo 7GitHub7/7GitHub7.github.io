@@ -19,57 +19,73 @@
           <form class="pure-form pure-form-aligned">
             <fieldset>
 
+              <div class="pure-g">
+                <div class="pure-u-1-2">
+                  <div class="pure-control-group">
+                    <label for="mySelect">Wybierz urządzenie:</label>
+                    <select name="mySelect" id="mySelect"
+                      ng-options="device as device.fields.device_id for device in userDevices track by device.fields.device_id"
+                      ng-model="selectedDevice"></select>
+                  </div>
+                </div>
+                <div class="pure-u-1-2">
+                  <div class="pure-control-group">
+                    <label for="mySelect">data odczytów:</label>
+                    <input type="date" name="eventDate" id="eventDate" ng-model="eventDate">
+                  </div>
+                </div>
 
-              <div class="pure-control-group">
-                <label for="mySelect">Wybierz pojazd:</label>
-                <select name="mySelect" id="mySelect"
-                  ng-options="device as device.fields.device_id for device in userDevices track by device.fields.device_id"
-                  ng-model="selectedDevice"></select>
+
               </div>
               <p><a class="pure-button pure-button-primary" role="button" ng-click="goToMap()">Idz do mapy </a></p>
              
+
+
+
 
             </fieldset>
           </form>
           <h3>Zdarzenia</h3>
           <div class="post-description">
             <table class="pure-table pure-table-bordered">
-                <tr>
-                    <th>Id</th>
-                    <th>Typ zdarzenia</th>
-                    <th>Data zdarzenia</th>
-                    <th>+</th>
-                </tr>
-                <tr ng-repeat="deviceEvent in userDevicesEvents">
-                    <td>{{deviceEvent.id}}</td>
-                    <td>{{deviceEvent.type}}</td>
-                    <td>{{deviceEvent.date}}</td>
-                    <td>
-                    <button class="pure-button" ng-click="selectDeviceEvent(deviceEvent)">
+              <tr>
+                <th>Id</th>
+                <th>Typ zdarzenia</th>
+                <th>Data zdarzenia</th>
+                <th>+</th>
+              </tr>
+              <tr ng-repeat="deviceEvent in userDevicesEvents">
+                <td>{{deviceEvent.id}}</td>
+                <td>{{deviceEvent.type}}</td>
+                <td>{{deviceEvent.date}}</td>
+                <td>
+                  <button class="pure-button" ng-click="selectDeviceEvent(deviceEvent)">
 
-                      szczegóły
-                    </button>
-                    </td>
-                </tr>
+                    szczegóły
+                  </button>
+                </td>
+              </tr>
             </table>
-        </div>
-          <label>{{selectedEvent}}</label> 
-          <!-- <p><a class="btn btn-primary btn-lg" role="button" ng-click="callAnonymousApi()">Pokaż dane</a></p> -->
 
+          </div>
+          <label>{{selectedEvent}}</label>
+          <!-- <p><a class="btn btn-primary btn-lg" role="button" ng-click="callAnonymousApi()">Pokaż dane</a></p>
+          <p><a class="btn btn-primary btn-lg" role="button" ng-click="goToMap()">Idz do mapy </a></p>
 
-          
-          <!-- <zingchart id="myChart2" zc-json="myJson" zc-height=500 zc-width=600></zingchart> -->
+          <zingchart id="myChart" zc-json="myJson" zc-height=500 zc-width=600></zingchart>
+          <zingchart id="myChart2" zc-json="myJson" zc-height=500 zc-width=600></zingchart> -->
+
 
           <!-- <p><a class="btn btn-primary btn-lg" role="button" ng-click="callSecuredApi()">Call Secure API</a></p> -->
           <!-- <h2 ng-show="response">The response of calling the <span class="red">{{api}}</span> API is:</h2> -->
           <!-- <h3 ng-show="response">{{response}}</h3> -->
 
+          <div id="mapDiv"></div>
 
 
-      
+        </div>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>
 </div>
