@@ -7,12 +7,15 @@
       </div>
     </div>
 
+    
+
     <div class="content pure-u-1 pure-u-md-3-4">
       <div>
         <div class="posts">
           <h1 class="content-subhead">Podgląd odczytów</h1>
+          <zingchart id="myChart" zc-json="myJson" zc-height=500 zc-width=600></zingchart>
           <!-- A wrapper for all the blog posts -->
-          <h3>Urządzenia</h3>
+          <h3>Pomiary</h3>
           <form class="pure-form pure-form-aligned">
             <fieldset>
 
@@ -32,7 +35,10 @@
                   </div>
                 </div>
 
+
               </div>
+              <p><a class="pure-button pure-button-primary" role="button" ng-click="goToMap()">Idz do mapy </a></p>
+             
 
 
 
@@ -60,6 +66,7 @@
                 </td>
               </tr>
             </table>
+
           </div>
           <label>{{selectedEvent}}</label>
           <!-- <p><a class="btn btn-primary btn-lg" role="button" ng-click="callAnonymousApi()">Pokaż dane</a></p>
@@ -67,6 +74,7 @@
 
           <zingchart id="myChart" zc-json="myJson" zc-height=500 zc-width=600></zingchart>
           <zingchart id="myChart2" zc-json="myJson" zc-height=500 zc-width=600></zingchart> -->
+
 
           <!-- <p><a class="btn btn-primary btn-lg" role="button" ng-click="callSecuredApi()">Call Secure API</a></p> -->
           <!-- <h2 ng-show="response">The response of calling the <span class="red">{{api}}</span> API is:</h2> -->

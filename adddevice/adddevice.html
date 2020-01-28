@@ -10,14 +10,16 @@
             <div>
                 <!-- A wrapper for all the blog posts -->
                 <div class="posts">
-                    <h1 class="content-subhead">Dodaj urządzenie</h1>
+                    <h1 class="content-subhead">Dodaj pojzad</h1>
 
                     <!-- A single blog post -->
                     <section class="post">
                         <header class="post-header">
 
 
+
                             <h3>Moje urządzenia</h3>
+
 
 
                         </header>
@@ -26,9 +28,11 @@
                             <table class="pure-table">
                                 <tr>
                                     <th>Id</th>
+
                                     <th>Nazwa urządzenia</th>
                                     <th>Model</th>
                                     <th>Numer Rejestracyjny</th>
+
                                 </tr>
                                 <tr ng-repeat="userDevice in userDevices">
                                     <td>{{userDevice.pk}}</td>
@@ -47,7 +51,9 @@
                     <section class="post">
                         <header class="post-header">
 
+
                             <h3>Dodaj nowe urządzenie</h3>
+
 
 
                         </header>
@@ -55,6 +61,7 @@
                         <div class="post-description">
                             <form role="form" class="pure-form pure-form-aligned">
                                 <fieldset>
+
                                     <div class="pure-control-group">
                                         <label for="deviceName" required>Nazwa urządzenia</label>
                                         <input type="text" class="form-control" ng-model="deviceName" id="username"
@@ -75,6 +82,7 @@
                                         <button type="submit" class="pure-button pure-button-primary"
                                             ng-click="addDevice()">Dodaj urządzenie</button>
                                     </div>
+
                                 </fieldset>
                             </form>
                         </div>
