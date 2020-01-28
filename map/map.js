@@ -16,12 +16,21 @@ angular.module('carmanager.map', ['ui.router',
 
 
 
-  .controller('MapCtrl', function MapController($scope, $rootScope, $compile, $http, store, jwtHelper,$state) {
+
+
+  .controller('MapCtrl', function MapController($scope, $rootScope, $compile, $http, store, jwtHelper,$state,$stateParams) {
 
     $scope.jwt = store.get('jwt');
     $scope.decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
 
-    console.log($scope.jwt);
+    console.log( JSON.parse(($stateParams.coordinates)));
+
+    
+
+
+
+  
+
 
     var winInfo = new google.maps.InfoWindow();
 
@@ -43,6 +52,7 @@ angular.module('carmanager.map', ['ui.router',
 
     $scope.$on('$viewContentLoaded', function(){
       makeRequest('Anonymous', 'https://pacific-river-86141.herokuapp.com/device-events/');
+      UserCtrl();
       //initialize();
     });
 
@@ -56,7 +66,7 @@ angular.module('carmanager.map', ['ui.router',
         $scope.response = quote.data;
         quote.data.forEach(element => {
           
-          console.log(element.data);
+          console.log($stateParams);
           var obj = String(element.data).replace(/["']/g, "\"");
           var objJSON = JSON.parse(obj);
           var el = {lat: parseFloat(objJSON.latitude), lng: parseFloat(objJSON.longitude)}
@@ -77,9 +87,20 @@ angular.module('carmanager.map', ['ui.router',
       
     ];
 
+  
+     
+  
+
     var markers = [];
     var map = $scope.gMap;
     $scope.drop = function() {
+
+      $stateParams.coordinates.forEach(element => {
+      
+        var el = {lat: parseFloat(element.latitude), lng: parseFloat(element.longitude)}
+        neighborhoods.push(el)    
+      });
+      console.log(neighborhoods);
       clearMarkers();
       for (var i = 0; i < neighborhoods.length; i++) {
         addMarkerWithTimeout(neighborhoods[i], i * 200);
@@ -148,6 +169,9 @@ angular.module('carmanager.map', ['ui.router',
 
 
     console.log(cities);
+    console.log($stateParams.bookName.lastName);
+
+    
     //google.maps.event.addDomListener(window, 'load', initialize);
 
   });

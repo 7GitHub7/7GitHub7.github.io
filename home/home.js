@@ -19,7 +19,7 @@ angular.module('carmanager.home', [
 
 
 
-  .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
+  .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper','$state', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
 
     $scope.userDevices = [];
     $scope.userDevicesEventsAllFilled = false;
@@ -71,7 +71,6 @@ angular.module('carmanager.home', [
     carManagerService.getUserDevices().then(function (request) {
       $scope.userDevices = request.data;
     })
-
 
 
     $scope.selectDeviceEvent = function (deviceEvent) {
