@@ -17,9 +17,7 @@ a:focus {
     text-decoration: underline;
 }
 
-h3 {
-    font-weight: 100;
-}
+
 
 /* LAYOUT CSS */
 .pure-img-responsive {
@@ -179,4 +177,14 @@ h3 {
     .footer {
         text-align: center;
     }
+}
+
+.pure-table td,
+.pure-table th {
+ border-left:1px solid #cbcbcb;
+ border-width:0 0 0 1px;
+ font-size:inherit;
+ margin:0;
+ overflow:visible;
+ padding:.1em 1em;
 }

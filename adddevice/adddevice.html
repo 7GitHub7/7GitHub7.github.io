@@ -17,21 +17,24 @@
                         <header class="post-header">
 
 
-                            <h3 class="post-title">Moje urządzenia</h3>
+                            <h3>Moje urządzenia</h3>
 
 
                         </header>
                         <mapDiv></mapDiv>
                         <div class="post-description">
-                            <table class="pure-table pure-table-bordered">
+                            <table class="pure-table">
                                 <tr>
                                     <th>Id</th>
                                     <th>Nazwa urządzenia</th>
+                                    <th>Model</th>
+                                    <th>Numer Rejestracyjny</th>
                                 </tr>
                                 <tr ng-repeat="userDevice in userDevices">
                                     <td>{{userDevice.pk}}</td>
                                     <td>{{userDevice.fields.device_id}}</td>
-
+                                    <td>{{userDevice.fields.car_model}}</td>
+                                    <td>{{userDevice.fields.registration_plate}}</td>
                                 </tr>
                             </table>
                         </div>
@@ -44,24 +47,36 @@
                     <section class="post">
                         <header class="post-header">
 
-                            <h3 class="post-title">Dodaj nowe urządzenie</h3>
+                            <h3>Dodaj nowe urządzenie</h3>
 
-            
+
                         </header>
 
                         <div class="post-description">
                             <form role="form" class="pure-form pure-form-aligned">
                                 <fieldset>
-                                  <div class="pure-control-group">
-                                    <label for="deviceName" required>Nazwa urządzenia</label>
-                                    <input type="text" class="form-control" ng-model="deviceName" id="username" placeholder="Nazwa urządzenia">
-                                  </div>
-                           
-                                  <div class="pure-controls">
-                                    <button type="submit" class="pure-button pure-button-primary" ng-click="addDevice()">Dodaj urządzenie</button>
-                                  </div>
+                                    <div class="pure-control-group">
+                                        <label for="deviceName" required>Nazwa urządzenia</label>
+                                        <input type="text" class="form-control" ng-model="deviceName" id="username"
+                                            placeholder="Nazwa urządzenia">
+                                    </div>
+                                    <div class="pure-control-group">
+                                        <label for="deviceName" required>Model auta</label>
+                                        <input type="text" class="form-control" ng-model="carModel" id="username"
+                                            placeholder="Model auta">
+                                    </div>
+                                    <div class="pure-control-group">
+                                        <label for="deviceName" required>Numer reuestracyjny</label>
+                                        <input type="text" class="form-control" ng-model="registrationPlate"
+                                            id="username" placeholder="Numer reuestracyjny">
+                                    </div>
+
+                                    <div class="pure-controls">
+                                        <button type="submit" class="pure-button pure-button-primary"
+                                            ng-click="addDevice()">Dodaj urządzenie</button>
+                                    </div>
                                 </fieldset>
-                              </form>
+                            </form>
                         </div>
                     </section>
 

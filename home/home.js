@@ -19,13 +19,14 @@ angular.module('carmanager.home', [
 
 
 
-  .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper','$state', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
+  .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper', '$state', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
 
+    $scope.eventDate = new Date();
     $scope.userDevices = [];
     $scope.userDevicesEventsAllFilled = false;
     $scope.userDevicesEventsAll = {};
     $scope.userDevicesEvents = {};
-    $scope.selectedEvent={};
+    $scope.selectedEvent = {};
     $scope.jwt = store.get('jwt');
     decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
     $scope.username = decodedJwt.username;
@@ -40,18 +41,30 @@ angular.module('carmanager.home', [
       if ($scope.userDevicesEventsAllFilled) {
         $scope.selectedDevice = $scope.userDevices[0];
         //alert('userDevicesEventsAll '+JSON.stringify(JSON.stringify($scope.userDevicesEventsAll)));
-        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
-          return element.device_id == $scope.userDevices[0].device_id;
-        })
+        // $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+        //   return element.device_id == $scope.userDevices[0].device_id;
+        // })
+
+        $scope.filterEvents($scope.userDevices[0].device_id, $scope.eventDate);
       }
     });
+
+    $scope.filterEvents = function (deviceId, eventDate) {
+      $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+        var data =new Date(Date.parse(element.date)).toDateString();
+        var data1 =eventDate.toDateString();
+        return element.device_id == deviceId && data == data1;
+      })
+    }
 
     $scope.$watch('selectedDevice', function (newvalue, oldvalue) {
       //alert('selectedDevice '+JSON.stringify(newvalue));
       if ($scope.userDevicesEventsAllFilled) {
-        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
-          return element.device_id == newvalue.fields.device_id;
-        })
+        // $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+        //   return element.device_id == newvalue.fields.device_id;
+        // })
+
+        $scope.filterEvents(newvalue.fields.device_id, $scope.eventDate);
       }
     });
 
@@ -77,7 +90,7 @@ angular.module('carmanager.home', [
       $scope.selectedEvent = deviceEvent;
 
 
-      if(deviceEvent.type=="POSITION"){
+      if (deviceEvent.type == "POSITION") {
         var position = JSON.parse(deviceEvent.data);
         var center = new google.maps.LatLng(position.latitude, position.longitude);
         $scope.gMap.panTo(center);
@@ -91,7 +104,7 @@ angular.module('carmanager.home', [
       center: new google.maps.LatLng(25, 80),
       mapTypeId: google.maps.MapTypeId.TERRAIN
     };
-    var mapDiv= document.getElementById('mapDiv');
+    var mapDiv = document.getElementById('mapDiv');
     $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
 
 
