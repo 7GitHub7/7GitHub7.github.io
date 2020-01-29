@@ -72,16 +72,19 @@ angular.module('carmanager.home', [
 
     }
 
-    carManagerService.getDeviceEvents().then(function(response) {
-        //console.log(response.data);
+    $scope.loadDeviceEvents = function() {
+        carManagerService.getDeviceEvents().then(function(response) {
+            //console.log(response.data);
 
-        $scope.userDevicesEventsAll = response.data;
-        //console.log($scope.userDevicesEventsAll);
-        $scope.userDevicesEventsAllFilled = true;
+            $scope.userDevicesEventsAll = response.data;
+            //console.log($scope.userDevicesEventsAll);
+            $scope.userDevicesEventsAllFilled = true;
 
-        initChart();
-    });
+            initChart();
+        });
 
+
+    }
 
     function initChart() {
         console.log($scope.userDevicesEvents);
@@ -135,12 +138,14 @@ angular.module('carmanager.home', [
 
 
 
+    $scope.loadUserDevices = function() {
+        carManagerService.getUserDevices().then(function(request) {
+            $scope.userDevices = request.data;
+            $scope.loadDeviceEvents();
+        })
+    };
 
-    carManagerService.getUserDevices().then(function(request) {
-        $scope.userDevices = request.data;
-    })
-
-
+    $scope.loadUserDevices();
 
 
     //var winInfo = new google.maps.InfoWindow();
