@@ -1,15 +1,14 @@
 angular.module('carmanager.adddevice', ['ui.router',
     'angular-storage',
-    'angular-jwt',
-    'ngMaterial'
+    'angular-jwt'
 ])
 
 
     .controller('addDeviceCtrl', ['carManagerService', '$scope', '$http', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
         $scope.userDevices = {};
         $scope.deviceName = '';
-        $scope.carModel='';
-        $scope.registrationPlate='';
+        $scope.carModel = '';
+        $scope.registrationPlate = '';
 
         $scope.getUserDevices = function () {
             carManagerService.getUserDevices().then(function (request) {
