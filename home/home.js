@@ -1,11 +1,11 @@
 angular.module('carmanager.home', [
-  'ui.router',
-  'angular-storage',
-  'angular-jwt',
-  'ngMaterial',
-  'zingchart-angularjs'
+    'ui.router',
+    'angular-storage',
+    'angular-jwt',
+    'ngMaterial',
+    'zingchart-angularjs'
 
-])
+  ])
   .config(function ($stateProvider, $mdIconProvider) {
 
     $mdIconProvider.iconSet('communication', 'img/icons/sets/communication-icons.svg', 24);
@@ -31,9 +31,13 @@ angular.module('carmanager.home', [
     decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
     $scope.username = decodedJwt.username;
     $scope.selectedDevice = {};
+    $chart = []
 
     carManagerService.getDeviceEvents().then(function (response) {
+      console.log(response.data);
+
       $scope.userDevicesEventsAll = response.data;
+      console.log($scope.userDevicesEventsAll);
       $scope.userDevicesEventsAllFilled = true;
     });
 
@@ -41,12 +45,17 @@ angular.module('carmanager.home', [
       if ($scope.userDevicesEventsAllFilled) {
         $scope.selectedDevice = $scope.userDevices[0];
         //alert('userDevicesEventsAll '+JSON.stringify(JSON.stringify($scope.userDevicesEventsAll)));
+
         // $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
         //   return element.device_id == $scope.userDevices[0].device_id;
         // })
 
         $scope.filterEvents($scope.userDevices[0].device_id, $scope.eventDate);
+
       }
+      console.log($scope.userDevicesEvents);
+
+      // initChart()
     });
 
     $scope.filterEvents = function (deviceId, eventDate) {
@@ -66,7 +75,59 @@ angular.module('carmanager.home', [
 
         $scope.filterEvents(newvalue.fields.device_id, $scope.eventDate);
       }
+      console.log($scope.userDevicesEvents);
+      initChart()
     });
+
+
+
+    function initChart() {
+      console.log($scope.userDevicesEvents);
+      rpm = []
+      speed = []
+
+
+
+      $scope.userDevicesEvents.forEach(element => {
+
+        if (element.type == "RPM") {
+          console.log(element);
+          element = JSON.parse(element.data)
+          console.log(element);
+
+
+
+          rpm.push(element.rpm)
+          console.log($chart);
+        }
+        if (element.type == "SPEED") {
+          console.log(element);
+          element = JSON.parse(element.data)
+          console.log(element);
+
+
+
+          speed.push(element.speed)
+          console.log($chart);
+        }
+
+      });
+
+      $scope.myJson = {
+        type: 'line',
+        series: [{
+            values: rpm
+          },
+          {
+            values: speed
+          }
+
+
+        ]
+
+      };
+
+    }
 
     $scope.$watch('userDevices', function () {
       //alert('userDevices '+JSON.stringify($scope.userDevices[0]));
@@ -84,6 +145,7 @@ angular.module('carmanager.home', [
     carManagerService.getUserDevices().then(function (request) {
       $scope.userDevices = request.data;
     })
+
 
 
     $scope.selectDeviceEvent = function (deviceEvent) {
@@ -110,4 +172,3 @@ angular.module('carmanager.home', [
 
 
   }]);
-
