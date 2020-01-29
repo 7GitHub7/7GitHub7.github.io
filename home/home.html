@@ -51,7 +51,7 @@
               <tr ng-repeat="deviceEvent in userDevicesEvents">
                 <td>{{deviceEvent.id}}</td>
                 <td>{{deviceEvent.type}}</td>
-                <td>{{deviceEvent.date}}</td>
+                <td>{{deviceEvent.date | date:'yyyy-mm-dd'}}</td>
                 <td>
                   <button class="pure-button" ng-click="selectDeviceEvent(deviceEvent)">
 

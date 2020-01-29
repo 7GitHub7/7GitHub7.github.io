@@ -95,11 +95,13 @@ angular.module('carmanager', [
       return listPromise;
     };
 
-    factory.addDevice = function (deviceName) {
+    factory.addDevice = function (device) {
 
       var data = {}
-      data.device_id = deviceName;
-
+      data.device_id = device.deviceName;
+      data.car_model = device.carModel;
+      data.registration_plate = device.registrationPlate;
+      
       var ret = $http.post('https://pacific-river-86141.herokuapp.com/user-device-add/', data).then(function (response) {
         return response;
       });
@@ -112,6 +114,7 @@ angular.module('carmanager', [
 
 
       var ret = $http.get('https://pacific-river-86141.herokuapp.com/device-events/').then(function (response) {
+
         return response;
       });
 
