@@ -65,8 +65,15 @@ angular.module('carmanager.home', [
 
         if (deviceEvent.type == "POSITION") {
             var position = JSON.parse(deviceEvent.data);
-            var center = new google.maps.LatLng(position.latitude, position.longitude);
-            $scope.gMap.panTo(center);
+
+            //var position = { lat: parseFloat(position.latitude), lng: parseFloat(position.longitude) };
+
+            //console.log(position);
+
+
+            L.marker([position.latitude, position.longitude]).addTo($scope.gMap);
+            $scope.gMap.panTo([position.latitude, position.longitude]);
+
         }
 
 
@@ -135,9 +142,6 @@ angular.module('carmanager.home', [
     }
 
 
-
-
-
     $scope.loadUserDevices = function() {
         carManagerService.getUserDevices().then(function(request) {
             $scope.userDevices = request.data;
@@ -149,14 +153,17 @@ angular.module('carmanager.home', [
 
 
     //var winInfo = new google.maps.InfoWindow();
-    var googleMapOption = {
-        zoom: 4,
-        center: new google.maps.LatLng(25, 80),
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-    var mapDiv = document.getElementById('mapDiv');
-    $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
-
+    // var googleMapOption = {
+    //     zoom: 4,
+    //     center: new google.maps.LatLng(25, 80),
+    //     mapTypeId: google.maps.MapTypeId.TERRAIN
+    // };
+    // var mapDiv = document.getElementById('mapDiv');
+    //$scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
+    $scope.gMap = L.map('mapDiv').setView([51.505, -0.09], 13);
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    ).addTo($scope.gMap);
     //initChart();
 
 }]);

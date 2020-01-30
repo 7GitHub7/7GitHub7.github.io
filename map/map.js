@@ -32,15 +32,15 @@ angular.module('carmanager.map', ['ui.router',
 
 
 
-    var winInfo = new google.maps.InfoWindow();
+    // var winInfo = new google.maps.InfoWindow();
 
-    var googleMapOption = {
-        zoom: 4,
-        center: new google.maps.LatLng(25, 80),
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
+    // var googleMapOption = {
+    //     zoom: 4,
+    //     center: new google.maps.LatLng(25, 80),
+    //     mapTypeId: google.maps.MapTypeId.TERRAIN
+    // };
 
-    $scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
+    //$scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
 
     // var myLatLng = {lat: -25.363, lng: 131.044};
 

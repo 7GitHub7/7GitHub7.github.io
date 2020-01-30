@@ -1,21 +1,14 @@
 .red {
-  color: red;
+    color: red;
 }
 
 .mat-list-icon {
-  color: rgba(0, 0, 0, 0.54);
+    color: rgba(0, 0, 0, 0.54);
 }
-
 
 #googleMap {
-  height: 5000px;
-  width: 5000px;
-  box-shadow: 3px 3px 10px gray;
-  border: 10px black;
+    height: 5000px;
+    width: 5000px;
+    box-shadow: 3px 3px 10px gray;
+    border: 10px black;
 }
-
-#map {
-  height: 100%;
-  width: 100%;
-}
-
