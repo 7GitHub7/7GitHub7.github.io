@@ -74,7 +74,12 @@ angular.module('carmanager.home', [
             L.marker([position.latitude, position.longitude]).addTo($scope.gMap);
             $scope.gMap.panTo([position.latitude, position.longitude]);
 
+        } else if (deviceEvent.type == "SPEED") {
+            $scope.setGaugeValue('Prędkość', parseFloat(JSON.parse(deviceEvent.data).speed))
+        } else if (deviceEvent.type == "RPM") {
+            $scope.setGaugeValue('Obroty', parseFloat(JSON.parse(deviceEvent.data).rpm))
         }
+
 
 
     }
@@ -86,61 +91,25 @@ angular.module('carmanager.home', [
             $scope.userDevicesEventsAll = response.data;
             //console.log($scope.userDevicesEventsAll);
             $scope.userDevicesEventsAllFilled = true;
-
-            initChart();
         });
-
-
     }
 
-    function initChart() {
-        console.log($scope.userDevicesEvents);
-        rpm = []
-        speed = []
 
 
 
-        $scope.userDevicesEventsAll.forEach(element => {
-
-            if (element.type == "RPM") {
-                console.log(element);
-                element = JSON.parse(element.data)
-                console.log(element);
-
-
-
-                rpm.push(element.rpm)
-                console.log($chart);
-            }
-            if (element.type == "SPEED") {
-                console.log(element);
-                element = JSON.parse(element.data)
-                console.log(element);
-
-
-
-                speed.push(element.speed)
-                console.log($chart);
-            }
-
-        });
-
+    $scope.setGaugeValue = function(label, value) {
         $scope.myJson = {
-            type: 'line',
+            type: 'gauge',
             series: [{
-                    values: rpm
-                },
-                {
-                    values: speed
-                }
-
-
-            ]
+                values: [value],
+                text: label
+            }],
+            title: {
+                text: label
+            }
 
         };
-
     }
-
 
     $scope.loadUserDevices = function() {
         carManagerService.getUserDevices().then(function(request) {
@@ -160,7 +129,7 @@ angular.module('carmanager.home', [
     // };
     // var mapDiv = document.getElementById('mapDiv');
     //$scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
-    $scope.gMap = L.map('mapDiv').setView([51.505, -0.09], 13);
+    $scope.gMap = L.map('mapDiv').setView([51.67333984375, 20.242389678955078], 13);
     L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     ).addTo($scope.gMap);
