@@ -4,118 +4,215 @@ angular.module('carmanager.home', [
     'angular-jwt',
     'zingchart-angularjs'
 
-])
+  ])
 
 
-.controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper', '$state', function(carManagerService, $scope, $http, store, jwtHelper, $state) {
+  .controller('homeCtrl', ['carManagerService', '$scope', '$http', 'store', 'jwtHelper', '$state', function (carManagerService, $scope, $http, store, jwtHelper, $state) {
 
-    $scope.eventDate = new Date();
-    $scope.userDevices = [];
-    $scope.userDevicesEventsAllFilled = false;
-    $scope.userDevicesEventsAll = {};
-    $scope.userDevicesEvents = {};
-    $scope.selectedEvent = {};
-    $scope.jwt = store.get('jwt');
-    decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
-    $scope.username = decodedJwt.username;
-    $scope.selectedDevice = {};
-    $chart = []
+      $scope.eventDate = new Date();
+      $scope.userDevices = [];
+      $scope.userDevicesEventsAllFilled = false;
+      $scope.userDevicesEventsAll = {};
+      $scope.userDevicesEvents = {};
+      $scope.selectedEvent = {};
+      $scope.jwt = store.get('jwt');
+      decodedJwt = $scope.jwt && jwtHelper.decodeToken($scope.jwt);
+      $scope.username = decodedJwt.username;
+      $scope.selectedDevice = {};
+      $chart = []
 
 
 
-    $scope.$watch('userDevicesEventsAll', function() {
+      $scope.$watch('userDevicesEventsAll', function () {
         if ($scope.userDevicesEventsAllFilled) {
-            $scope.selectedDevice = $scope.userDevices[0];
-            $scope.filterEvents($scope.userDevices[0].device_id, $scope.eventDate);
-        }
-    });
+          $scope.selectedDevice = $scope.userDevices[0];
+          $scope.filterEvents($scope.userDevices[0].device_id, $scope.eventDate);
 
-    $scope.$watch('eventDate', function() {
+        }
+        initChart()
+      });
+
+      $scope.$watch('eventDate', function () {
         if ($scope.userDevicesEventsAllFilled) {
-            $scope.filterEvents($scope.selectedDevice.fields.device_id, $scope.eventDate);
+          $scope.filterEvents($scope.selectedDevice.fields.device_id, $scope.eventDate);
         }
-    });
+        initChart()
+      });
 
-    $scope.$watch('selectedDevice', function(newvalue, oldvalue) {
+      $scope.$watch('selectedDevice', function (newvalue, oldvalue) {
         //alert('selectedDevice '+JSON.stringify(newvalue));
         if ($scope.userDevicesEventsAllFilled) {
-            $scope.filterEvents(newvalue.fields.device_id, $scope.eventDate);
+          $scope.filterEvents(newvalue.fields.device_id, $scope.eventDate);
         }
-    });
+      });
 
-    $scope.$watch('userDevices', function() {
+      $scope.$watch('userDevices', function () {
         //alert('userDevices '+JSON.stringify($scope.userDevices[0]));
         if ($scope.userDevicesEventsAllFilled) {
 
-            $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function(element) {
-                return element.device_id == $scope.userDevices[0].device_id;
-            })
+          $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+            return element.device_id == $scope.userDevices[0].device_id;
+          })
         }
-    });
-    $scope.filterEvents = function(deviceId, eventDate) {
-        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function(element) {
-            var data = new Date(Date.parse(element.date)).toDateString();
-            var data1 = eventDate.toDateString();
-            return element.device_id == deviceId && data == data1;
+      });
+      $scope.filterEvents = function (deviceId, eventDate) {
+        $scope.userDevicesEvents = $scope.userDevicesEventsAll.filter(function (element) {
+          var data = new Date(Date.parse(element.date)).toDateString();
+          var data1 = eventDate.toDateString();
+          return element.device_id == deviceId && data == data1;
         })
-    }
-    $scope.selectDeviceEvent = function(deviceEvent) {
+      }
+      $scope.selectDeviceEvent = function (deviceEvent) {
         $scope.selectedEvent = deviceEvent;
 
 
         if (deviceEvent.type == "POSITION") {
-            var position = JSON.parse(deviceEvent.data);
+          var position = JSON.parse(deviceEvent.data);
 
-            //var position = { lat: parseFloat(position.latitude), lng: parseFloat(position.longitude) };
+          //var position = { lat: parseFloat(position.latitude), lng: parseFloat(position.longitude) };
 
-            //console.log(position);
+          //console.log(position);
 
 
-            L.marker([position.latitude, position.longitude]).addTo($scope.gMap);
-            $scope.gMap.panTo([position.latitude, position.longitude]);
+          L.marker([position.latitude, position.longitude]).addTo($scope.gMap);
+          $scope.gMap.panTo([position.latitude, position.longitude]);
 
         } else if (deviceEvent.type == "SPEED") {
-            $scope.setGaugeValue('Prędkość', parseFloat(JSON.parse(deviceEvent.data).speed))
+          $scope.setGaugeValue('Prędkość', parseFloat(JSON.parse(deviceEvent.data).speed))
         } else if (deviceEvent.type == "RPM") {
-            $scope.setGaugeValue('Obroty', parseFloat(JSON.parse(deviceEvent.data).rpm))
+          $scope.setGaugeValue('Obroty', parseFloat(JSON.parse(deviceEvent.data).rpm))
         }
 
 
 
-    }
+      }
 
-    $scope.loadDeviceEvents = function() {
-        carManagerService.getDeviceEvents().then(function(response) {
-            //console.log(response.data);
+      function initChart() {
+        console.log($scope.userDevicesEvents);
+        rpm = []
+        speed = []
+        RpmObjectId = []
+        SpeedObjectId = []
 
-            $scope.userDevicesEventsAll = response.data;
-            //console.log($scope.userDevicesEventsAll);
-            $scope.userDevicesEventsAllFilled = true;
+
+
+        $scope.userDevicesEvents.forEach(element => {
+
+          if (element.type == "RPM") {
+            RpmObjectId.push(element.id)
+            element = JSON.parse(element.data)
+            rpm.push(element.rpm)
+
+
+
+
+          }
+          if (element.type == "SPEED") {
+            SpeedObjectId.push(element.id)
+            element = JSON.parse(element.data)
+            speed.push(element.speed)
+            console.log("SPEED");
+            console.log(SpeedObjectId);
+
+
+          }
+
         });
-    }
 
-
-
-
-    $scope.setGaugeValue = function(label, value) {
         $scope.myJson = {
-            type: 'gauge',
-            series: [{
-                values: [value],
-                text: label
-            }],
-            title: {
-                text: label
+          type: 'line',
+          series: [{
+              values: rpm
+            },
+            {
+              values: speed
             }
 
+
+          ]
+
         };
+
+        zingchart.click = function (p) {
+          if (p.targetid == "myChart-img") {
+            return;
+          }
+
+          targetidTab = p.targetid.split('-')
+          // numer lini danych
+          plot = parseInt(targetidTab[5])
+          // numer punktu danych
+          node = parseInt(targetidTab[7])
+
+          //rpm
+          if(plot == 0){
+            console.log(RpmObjectId[node]);
+
+           var obj = $scope.userDevicesEventsAll.filter(function (element) {
+              return element.id== RpmObjectId[node];
+            })
+            console.log(obj);
+           displayObj =  "<br>Pomiar: "+obj[0].data +"<br>Data: " + obj[0].date +"<br>Telefon: "+ obj[0].phone_number
+            zcdocs.demos.dump('<br>RPM', displayObj );
+          }
+          //speed
+          if(plot == 1){
+            var obj = $scope.userDevicesEventsAll.filter(function (element) {
+              return element.id == SpeedObjectId[node];
+            })
+            displayObj =  "<br>Pomiar: "+obj[0].data +"<br>Data: " + obj[0].date +"<br>Telefon: "+ obj[0].phone_number
+            zcdocs.demos.dump('<br>SPEED', displayObj);
+
+          }
+
+
+          
+
+        }
+      
+
+      zingchart.render({
+        id: 'demo-chart',
+        data: $scope.myJson,
+        height: 400,
+        width: '100%'
+      });
+
+
     }
 
-    $scope.loadUserDevices = function() {
-        carManagerService.getUserDevices().then(function(request) {
-            $scope.userDevices = request.data;
-            $scope.loadDeviceEvents();
-        })
+    $scope.loadDeviceEvents = function () {
+      carManagerService.getDeviceEvents().then(function (response) {
+        //console.log(response.data);
+
+        $scope.userDevicesEventsAll = response.data;
+        //console.log($scope.userDevicesEventsAll);
+        $scope.userDevicesEventsAllFilled = true;
+      });
+    }
+
+
+
+
+    $scope.setGaugeValue = function (label, value) {
+      $scope.myJson = {
+        type: 'gauge',
+        series: [{
+          values: [value],
+          text: label
+        }],
+        title: {
+          text: label
+        }
+
+      };
+    }
+
+    $scope.loadUserDevices = function () {
+      carManagerService.getUserDevices().then(function (request) {
+        $scope.userDevices = request.data;
+        $scope.loadDeviceEvents();
+      })
     };
 
     $scope.loadUserDevices();
@@ -129,10 +226,10 @@ angular.module('carmanager.home', [
     // };
     // var mapDiv = document.getElementById('mapDiv');
     //$scope.gMap = new google.maps.Map(document.getElementById('mapDiv'), googleMapOption);
-    $scope.gMap = L.map('mapDiv').setView([51.67333984375, 20.242389678955078], 13);
+    $scope.gMap = L.map('mapDiv').setView([53.67333984375, 19.242389678955078], 13);
     L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     ).addTo($scope.gMap);
     //initChart();
 
-}]);
+  }]);
