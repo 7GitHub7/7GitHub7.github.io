@@ -1,126 +1,138 @@
 angular.module('carmanager', [
-  'carmanager.login',
-  'carmanager.home',
-  'carmanager.signup',
-  'carmanager.map',
-  'carmanager.adddevice',
-  'angular-jwt',
-  'angular-storage'
-])
-  .config(function myAppConfig($urlRouterProvider, jwtInterceptorProvider, jwtOptionsProvider, $httpProvider, $stateProvider) {
+
+        'carmanager.login',
+        'carmanager.home',
+        'carmanager.signup',
+        'carmanager.map',
+        'carmanager.adddevice',
+        'angular-jwt',
+        'angular-storage'
+    ])
+    .config(function myAppConfig($urlRouterProvider, jwtInterceptorProvider, jwtOptionsProvider, $httpProvider, $stateProvider) {
 
 
 
-    $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/');
 
 
-    $stateProvider.state('map', {
+        $stateProvider.state('map', {
 
-      url: '/map/coordinates/',
+            url: '/map/coordinates/',
 
-      controller: 'MapCtrl',
-      templateUrl: 'map/map.html',
-      data: {
-        requiresLogin: true
-      }
-    });
+            controller: 'MapCtrl',
+            templateUrl: 'map/map.html',
+            data: {
+                requiresLogin: true
+            }
+        });
 
-    $stateProvider.state('adddevice', {
-      url: '/adddevice',
-      controller: 'addDeviceCtrl',
-      templateUrl: 'adddevice/adddevice.html',
-      data: {
-        requiresLogin: true
-      }
-    });
+        $stateProvider.state('adddevice', {
+            url: '/adddevice',
+            controller: 'addDeviceCtrl',
+            templateUrl: 'adddevice/adddevice.html',
+            data: {
+                requiresLogin: true
+            }
+        });
 
-    $stateProvider.state('home', {
-      url: '/',
-      controller: 'homeCtrl',
-      templateUrl: 'home/home.html',
-      data: {
-        requiresLogin: true
-      }
-    });
+        $stateProvider.state('home', {
+            url: '/',
+            controller: 'homeCtrl',
+            templateUrl: 'home/home.html',
+            data: {
+                requiresLogin: true
+            }
+        });
 
-    $stateProvider.state('login', {
-      url: '/login',
-      controller: 'LoginCtrl',
-      templateUrl: 'login/login.html'
-    });
+        $stateProvider.state('login', {
+            url: '/login',
+            controller: 'LoginCtrl',
+            templateUrl: 'login/login.html'
+        });
 
 
-    jwtInterceptorProvider.tokenGetter = function (store) {
-      var token = store.get('jwt');
-      return token;
-    }
-    jwtOptionsProvider.config({
+        jwtInterceptorProvider.tokenGetter = function(store) {
+            var token = store.get('jwt');
+            return token;
 
-      whiteListedDomains: ['api.myapp.com', 'localhost', 'pacific-river-86141.herokuapp.com']
-    });
-    $httpProvider.interceptors.push('jwtInterceptor');
-  })
-  .run(function ($transitions, $rootScope, $state, store, jwtHelper) {
-    // $rootScope.$on('$stateChangeStart', function(e, to) {
-    //   if (to.data && to.data.requiresLogin) {
-    //     if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
-    //       e.preventDefault();
-    //       $state.go('login');
-    //     }
-    //   }
-    // });
-
-    $transitions.onEnter({}, function (trans) {
-      if (trans.to().data && trans.to().data.requiresLogin) {
-        if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
-          // e.preventDefault();
-          trans.router.stateService.go('login');
         }
-      }
-    });
-  })
-  .controller('AppCtrl', function AppCtrl($scope, $location) {
-    $scope.$on('$routeChangeSuccess', function (e, nextRoute) {
-      if (nextRoute.$$route && angular.isDefined(nextRoute.$$route.pageTitle)) {
-        $scope.pageTitle = nextRoute.$$route.pageTitle + ' | ngEurope ';
-      }
-    });
-  })
-  .factory('carManagerService', function ($http) {
-    var factory = {};
-    factory.getUserDevices = function () {
+        jwtOptionsProvider.config({
 
-      var listPromise = $http.get("https://pacific-river-86141.herokuapp.com/devices/").then(function (resp) {
-        return resp;
-      });
+            whiteListedDomains: ['api.myapp.com', 'localhost', 'pacific-river-86141.herokuapp.com']
+        });
+        $httpProvider.interceptors.push('jwtInterceptor');
+    })
+    .run(function($transitions, $rootScope, $state, store, jwtHelper) {
+        // $rootScope.$on('$stateChangeStart', function(e, to) {
+        //   if (to.data && to.data.requiresLogin) {
+        //     if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
+        //       e.preventDefault();
+        //       $state.go('login');
+        //     }
+        //   }
+        // });
 
-      return listPromise;
-    };
+        $transitions.onEnter({}, function(trans) {
+            if (trans.to().data && trans.to().data.requiresLogin) {
+                if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
+                    // e.preventDefault();
+                    trans.router.stateService.go('login');
+                }
+            }
+        });
+    })
+    .controller('AppCtrl', function AppCtrl($scope, $location) {
+        $scope.$on('$routeChangeSuccess', function(e, nextRoute) {
+            if (nextRoute.$$route && angular.isDefined(nextRoute.$$route.pageTitle)) {
+                $scope.pageTitle = nextRoute.$$route.pageTitle + ' | ngEurope ';
+            }
+        });
+    })
+    .factory('carManagerService', function($http) {
+        var factory = {};
+        factory.getUserDevices = function() {
 
-    factory.addDevice = function (deviceName) {
+            var listPromise = $http.get("https://pacific-river-86141.herokuapp.com/devices/").then(function(resp) {
+                return resp;
+            });
 
-      var data = {}
-      data.device_id = deviceName;
+            return listPromise;
+        };
 
-      var ret = $http.post('https://pacific-river-86141.herokuapp.com/user-device-add/', data).then(function (response) {
-        return response;
-      });
+        factory.addDevice = function(device) {
 
-      return ret;
-    };
+            var data = {}
+            data.device_id = device.deviceName;
+            data.car_model = device.carModel;
+            data.registration_plate = device.registrationPlate;
 
-    factory.getDeviceEvents = function () {
+            var ret = $http.post('https://pacific-river-86141.herokuapp.com/user-device-add/', data).then(function(response) {
+                return response;
+            });
+
+            return ret;
+        };
+
+        factory.decodeLocation = function(location) {
+
+            var ret = $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + location.lat + ',' + location.lng + '&key=AIzaSyBTXMFkNYDZ1xzKGjGXGCS9DMPKILve0Xo').then(function(response) {
+                return response;
+            });
+
+            return ret;
+        };
+
+        factory.getDeviceEvents = function() {
 
 
 
-      var ret = $http.get('https://pacific-river-86141.herokuapp.com/device-events/').then(function (response) {
-        return response;
-      });
+            var ret = $http.get('https://pacific-river-86141.herokuapp.com/device-events/').then(function(response) {
 
-      return ret;
-    };
+                return response;
+            });
 
-    return factory;
-  });
-;
+            return ret;
+        };
 
+        return factory;
+    });;
