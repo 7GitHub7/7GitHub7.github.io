@@ -69,7 +69,7 @@
                               <th>Data zdarzenia</th>
                               <th>+</th>
                           </tr>
-                          <tr ng-repeat="deviceEvent in userDevicesEvents">
+                          <tr ng-repeat="deviceEvent in userDevicesEventsFilter">
                               <td>{{deviceEvent.id}}</td>
                               <td>{{deviceEvent.type}}</td>
                               <td>{{deviceEvent.date | date:'yyyy-mm-dd h:mm a '}}</td>
